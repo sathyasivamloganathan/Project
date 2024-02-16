@@ -1,0 +1,22 @@
+# Stage 2: Python server
+FROM python:3.10-slim AS server
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y python3-tk
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy requirements.txt to the working directory
+COPY requirements.txt ./
+
+# Install server dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the server application code to the container
+COPY model /app/
+COPY server /app/
+
+
+# Specify the command to run on container start
+CMD ["python", "app.py"]
